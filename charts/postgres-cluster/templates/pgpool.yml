@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-pgpool
+  labels:
+    name: {{.Release.Name}}-pgpool
+    app: pgpool
+    tier: ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: {{.Release.Name}}-pgpool
+      app: pgpool
+      tier: ingress
+  template:
+    metadata:
+      labels:
+        name: {{.Release.Name}}-pgpool
+        app: pgpool
+        tier: ingress
+    spec:
+      containers:
+      - name: {{.Release.Name}}-pgpool
+        image: docker.datapath.io/postgres-cluster-pgpool:{{.Values.pgpool.image.tag}}
+        envFrom:
+        - configMapRef:
+            name: {{.Release.Name}}-db-config        
+        env:
+        - name: PGPOOL_HOSTNAME
+          value: {{.Release.Name}}-pgpool
+        - name: MASTER_HOSTNAME
+          value: {{.Release.Name}}-pgwrite
+        - name: MASTER_WEIGHT
+          value: "1"
+        - name: SLAVE_HOSTNAME
+          value: {{.Release.Name}}-pgread
+        - name: SLAVE_WEIGHT
+          value: "8"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{.Release.Name}}-db-credential
+              key: password
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: {{.Release.Name}}-datapath-registry

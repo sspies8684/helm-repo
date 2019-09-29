@@ -1,0 +1,52 @@
+---
+{{ if ne .Values.awsBackup.secretAccessKey "nothing" }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{.Release.Name}}-postgres-backup
+spec:
+  schedule: "@daily"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: docker.datapath.io/postgres-backup
+            imagePullPolicy: Always
+            env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: {{.Release.Name}}-db-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Release.Name}}-db-credential
+                  key: password
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{.Release.Name}}-db-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_HOST
+              value: {{.Release.Name}}-pgread
+            - name: ENVIRONMENT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{.Release.Name}}-db-config
+                  key: backup-aws-accesskey
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Release.Name}}-db-credential
+                  key: backup-aws-secret
+          restartPolicy: OnFailure
+          imagePullSecrets:
+          - name: {{.Release.Name}}-datapath-registry
+{{ end }}

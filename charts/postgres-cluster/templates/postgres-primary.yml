@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: {{.Release.Name}}-postgres-primary
+    app: postgres
+    release: {{ .Release.Name }}
+    tier: primary
+  name: {{.Release.Name}}-postgres-primary
+spec:
+  replicas: 1
+  serviceName: {{.Release.Name}}-postgres-primary  
+  selector:
+    matchLabels:
+      name: {{.Release.Name}}-postgres-primary
+      app: postgres
+      release: {{ .Release.Name }}
+      tier: primary
+  template:
+    metadata:
+      labels:
+        name: {{.Release.Name}}-postgres-primary
+        app: postgres
+        release: {{ .Release.Name }}
+        tier: primary
+      name: {{.Release.Name}}-postgres-primary
+    spec:
+      volumes:
+      - name: postgres-primary-pvc
+        persistentVolumeClaim:
+          claimName: {{.Release.Name}}-postgres-primary-pvc
+      - name: postgres-replica
+        configMap:
+          name: {{.Release.Name}}-postgres-primary
+      containers:
+      - name: postgres
+        image: postgres:10.3
+        volumeMounts:
+        - name: postgres-primary-pvc
+          mountPath: /data
+        - name: postgres-replica
+          mountPath: /docker-entrypoint-initdb.d
+        envFrom:
+        - configMapRef:
+            name: {{.Release.Name}}-db-config
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{.Release.Name}}-db-credential
+              key: password
+        - name: PGDATA
+          value: /data/pg
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: "release"
+                      operator: In
+                      values:
+                      - {{.Release.Name}}
+                    - key: "app"
+                      operator: In
+                      values:
+                      - postgres
+                topologyKey: "kubernetes.io/hostname"

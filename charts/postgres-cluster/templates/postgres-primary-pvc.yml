@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{.Release.Name}}-postgres-primary-pvc
+  annotations:
+    "helm.sh/resource-policy": keep  
+  labels:
+    name: {{.Release.Name}}-postgres-primary-pvc
+    app: postgres
+    tier: primary
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  storageClassName: {{.Values.storageClass}}
+  resources:
+    requests:
+      storage: 1Gi

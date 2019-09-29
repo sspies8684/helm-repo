@@ -1,0 +1,11 @@
+db:
+  username: api
+  password: api
+  name: irc
+awsBackup:
+  accessKeyId: AKI...
+  secretAccessKey: nothing
+pgpool:
+  image:
+    tag: 1.0.1
+storageClass: managed-premium

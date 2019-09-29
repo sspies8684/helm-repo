@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: {{.Release.Name}}-postgres-replica
+    app: postgres
+    release: {{.Release.Name}}
+    tier: replica
+  name: {{.Release.Name}}-postgres-replica
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: {{.Release.Name}}-postgres-replica
+      app: postgres
+      release: {{.Release.Name}}
+      tier: replica      
+  template:
+    metadata:
+      labels:
+        name: {{.Release.Name}}-postgres-replica
+        app: postgres
+        release: {{.Release.Name}}        
+        tier: replica        
+      name: postgres-replica
+    spec:
+      containers:
+      - name: postgres-replica
+        image: docker.datapath.io/postgres-cluster-replica:1.0.0
+        envFrom:
+        - configMapRef:
+            name: {{.Release.Name}}-db-config
+        env:
+        - name: PRIMARY_SERVICE
+          value: {{.Release.Name}}-postgres-primary
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{.Release.Name}}-db-credential
+              key: password
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: {{.Release.Name}}-datapath-registry
+      affiniti:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "release"
+                    operator: In
+                    values:
+                    - {{.Release.Name}}
+                  - key: "app"
+                    operator: In
+                    values:
+                    - postgres
+              topologyKey: "kubernetes.io/hostname"

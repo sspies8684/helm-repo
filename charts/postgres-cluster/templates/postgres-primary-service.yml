@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Release.Name}}-postgres-primary
+  labels:
+    name: {{.Release.Name}}-postgres-primary
+    app: postgres
+    tier: primary
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+  clusterIP: None    
+  selector:
+    name: {{.Release.Name}}-postgres-primary
+    app: postgres
+    tier: primary

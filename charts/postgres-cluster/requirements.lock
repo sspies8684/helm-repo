@@ -1,0 +1,6 @@
+dependencies:
+- name: datapath-pull-secrets
+  repository: file://../pull-secrets
+  version: 1.0.0
+digest: sha256:a3537f00fc5e90c6f5ff6ee6c3170127925fb5a0b45c8cf56759952d40b95777
+generated: 2018-04-20T16:40:28.3533947+02:00
