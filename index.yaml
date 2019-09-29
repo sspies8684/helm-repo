@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  postgres-cluster:
+  - apiVersion: v1
+    appVersion: "10.3"
+    created: "2019-09-29T20:55:07.9032109+07:00"
+    description: Datapath.io Postgres Cluster
+    digest: 76945b7e7df0bb9959e27480c2ff4c20d7d9071d07878270961f9e53b6c0811b
+    engine: gotpl
+    name: postgres-cluster
+    urls:
+    - postgres-cluster-4.0.0.tgz
+    version: 4.0.0
+generated: "2019-09-29T20:55:07.9012868+07:00"
