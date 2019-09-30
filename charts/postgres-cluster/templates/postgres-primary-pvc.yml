@@ -12,7 +12,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  volumeMode: Block
   storageClassName: {{.Values.storage.class}}
   resources:
     requests:
