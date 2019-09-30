@@ -3,22 +3,12 @@ entries:
   postgres-cluster:
   - apiVersion: v1
     appVersion: "10.3"
-    created: "2019-09-30T20:29:20.865710004+02:00"
+    created: "2019-09-30T20:40:28.217969857+02:00"
     description: Datapath.io Postgres Cluster
-    digest: e97c1528d74c61b6d23829f970491e7c3951cd6b9fcc7e002b8d3703a613b92a
+    digest: 8af3dd0cf7f4be02e2b214bdc509132585227807cf5db8c4b9cf6f9719eb1072
     engine: gotpl
     name: postgres-cluster
     urls:
-    - postgres-cluster-4.1.0.tgz
-    version: 4.1.0
-  - apiVersion: v1
-    appVersion: "10.3"
-    created: "2019-09-30T20:29:20.864488098+02:00"
-    description: Datapath.io Postgres Cluster
-    digest: fec11d10ac3b4ce793ff2ebd3da4808d991faa01c5ecd63debb471e9b391abe2
-    engine: gotpl
-    name: postgres-cluster
-    urls:
-    - postgres-cluster-4.0.0.tgz
-    version: 4.0.0
-generated: "2019-09-30T20:29:20.862733743+02:00"
+    - postgres-cluster-4.1.1.tgz
+    version: 4.1.1
+generated: "2019-09-30T20:40:28.215946986+02:00"
