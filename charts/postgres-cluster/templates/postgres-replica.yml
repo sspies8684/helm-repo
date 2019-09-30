@@ -15,19 +15,19 @@ spec:
       name: {{.Release.Name}}-postgres-replica
       app: postgres
       release: {{.Release.Name}}
-      tier: replica      
+      tier: replica
   template:
     metadata:
       labels:
         name: {{.Release.Name}}-postgres-replica
         app: postgres
-        release: {{.Release.Name}}        
-        tier: replica        
+        release: {{.Release.Name}}
+        tier: replica
       name: postgres-replica
     spec:
       containers:
       - name: postgres-replica
-        image: docker.datapath.io/postgres-cluster-replica:1.0.0
+        image: sspies8684/postgres-cluster-replica:1.0.0
         envFrom:
         - configMapRef:
             name: {{.Release.Name}}-db-config
@@ -40,8 +40,6 @@ spec:
               name: {{.Release.Name}}-db-credential
               key: password
         imagePullPolicy: Always
-      imagePullSecrets:
-      - name: {{.Release.Name}}-datapath-registry
       affiniti:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

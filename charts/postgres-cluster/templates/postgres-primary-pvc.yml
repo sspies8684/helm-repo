@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{.Release.Name}}-postgres-primary-pvc
   annotations:
-    "helm.sh/resource-policy": keep  
+    "helm.sh/resource-policy": keep
   labels:
     name: {{.Release.Name}}-postgres-primary-pvc
     app: postgres
@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   volumeMode: Block
-  storageClassName: {{.Values.storageClass}}
+  storageClassName: {{.Values.storage.class}}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{.Values.storage.size}}

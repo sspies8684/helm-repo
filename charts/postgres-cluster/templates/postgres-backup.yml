@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
           - name: backup
-            image: docker.datapath.io/postgres-backup
+            image: sspies8684/postgres-backup
             imagePullPolicy: Always
             env:
             - name: POSTGRES_DB
@@ -47,6 +47,4 @@ spec:
                   name: {{.Release.Name}}-db-credential
                   key: backup-aws-secret
           restartPolicy: OnFailure
-          imagePullSecrets:
-          - name: {{.Release.Name}}-datapath-registry
 {{ end }}

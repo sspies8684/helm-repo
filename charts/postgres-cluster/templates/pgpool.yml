@@ -22,10 +22,10 @@ spec:
     spec:
       containers:
       - name: {{.Release.Name}}-pgpool
-        image: docker.datapath.io/postgres-cluster-pgpool:{{.Values.pgpool.image.tag}}
+        image: sspies8684/postgres-cluster-pgpool:{{.Values.pgpool.image.tag}}
         envFrom:
         - configMapRef:
-            name: {{.Release.Name}}-db-config        
+            name: {{.Release.Name}}-db-config
         env:
         - name: PGPOOL_HOSTNAME
           value: {{.Release.Name}}-pgpool
@@ -43,5 +43,3 @@ spec:
               name: {{.Release.Name}}-db-credential
               key: password
         imagePullPolicy: Always
-      imagePullSecrets:
-      - name: {{.Release.Name}}-datapath-registry
