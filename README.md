@@ -1,4 +1,4 @@
-﻿# sspies8684 helm repository
+# sspies8684 helm repository
  
 ## Add helm repository
 
