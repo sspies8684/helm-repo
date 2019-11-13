@@ -9,6 +9,6 @@ entries:
     engine: gotpl
     name: postgres-cluster
     urls:
-    - postgres-cluster-4.1.1.tgz
-    version: 4.1.1
+    - postgres-cluster-4.1.2.tgz
+    version: 4.1.2
 generated: "2019-09-30T21:24:25.775558222+02:00"
