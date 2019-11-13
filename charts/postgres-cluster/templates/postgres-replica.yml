@@ -40,17 +40,17 @@ spec:
               name: {{.Release.Name}}-db-credential
               key: password
         imagePullPolicy: Always
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "release"
-                    operator: In
-                    values:
-                    - {{.Release.Name}}
-                  - key: "app"
-                    operator: In
-                    values:
-                    - postgres
-              topologyKey: "kubernetes.io/hostname"
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            - labelSelector:
+#                matchExpressions:
+#                  - key: "release"
+#                    operator: In
+#                    values:
+#                    - {{.Release.Name}}
+#                  - key: "app"
+#                    operator: In
+#                    values:
+#                    - postgres
+#              topologyKey: "kubernetes.io/hostname"
